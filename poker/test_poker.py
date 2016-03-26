@@ -10,7 +10,7 @@ class TestPoker(unittest.TestCase):
                         [3, 2, 8, 5, 10]), 'Player_2')
 
     def test_a_higher_card_in_hand_must_win(self):
-        self.assertEqual(poker([3, 5, 7, 9, 'dama'],
+        self.assertEqual(poker([3, 7, 2, 9, 'dama'],
                         [5, 3, 7, 4, 'valete']), 'Player_1')
 
     def test_one_pair_must_win_higher_card(self):
@@ -22,11 +22,11 @@ class TestPoker(unittest.TestCase):
 
     def test_toak_must_win_one_pair(self):
         self.assertEqual(poker([4, 5, 8, 8, 8],
-                        [3, 5, 10, 10, 'as']), Player_1)
+                        [3, 5, 10, 10, 'as']), 'Player_1')
 
     def test_foak_must_win_toak(self):
         self.assertEqual(poker([4, 8, 8, 8, 8],
-                        ['as', 5, 'as', 10, 'as']), Player_1)
+                        ['as', 5, 'as', 10, 'as']), 'Player_1')
 
 
 

@@ -22,29 +22,20 @@ def higher_card(hand):
     return max(normalize_value(hand))
 
 def one_pair(hand):
-    check = []
-    for card in normalize_value(hand):
-        if card in check:
-            return 15
-        else:
-            check.append(card)
-    return higher_card(check)
-
-def one_pair(hand):
     count = {}
     for card in normalize_value(hand):
-        val = 0
+        # val = count[card].values()
         if card in count:
-            count[card] = val + 1
+            count[card] += 1
         else:
 #assim se cria uma nova chave/valor em um dicionario>
-            count[card] = 0
+            count[card] = 1
     for checked_card in count.values():
         if checked_card == 4:
             return 21
-        elif checked_card == 3:
+        if checked_card == 3:
             return 17
-        elif checked_card == 2:
+        if checked_card == 2:
             return 15
-        else:
-            higher_card(hand)
+    else:
+        return higher_card(hand)
