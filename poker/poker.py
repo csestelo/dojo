@@ -1,19 +1,16 @@
-DECK = {'valete': 11, 'dama': 12, 'rei': 13, 'as': 14}
-ONE_PAIR = 15
-TWO_PAIR = 16
-THREE_OF_A_KIND = 17
-STRAIGHT = 18
-FLUSH = 19
-FULL_HOUSE = 20
-FOUR_OF_A_KIND = 21
-STRAIGHT_FLUSH = 22
-ROYAL_FLUSH = 23
+from poker_const import RANKS, DECK
 
 def poker(hand_1, hand_2):
-    if wich_hand(hand_1) > wich_hand(hand_2):
+    if wich_hand(card_value(hand_1)) > wich_hand(card_value(hand_2)):
         return 'Player_1'
     else:
         return 'Player_2'
+
+def card_value(hand):
+    return [card[0] for card in hand]
+
+def suits(hand):
+    return [card[1] for card in hand]
 
 def normalize_value(hand):
     final_hand = []
@@ -37,27 +34,27 @@ def wich_hand(hand):
             count[card] = 1
     for checked_card in count.values():
         if checked_card == 4:
-            return FOUR_OF_A_KIND
+            return RANKS.FOUR_OF_A_KIND
         if straight(hand) == True:
-            return STRAIGHT
+            return RANKS.STRAIGHT
         if checked_card == 3 or checked_card == 2:
             full_house = []
             for recheck in count.values():
                 if recheck == 2 or recheck == 3:
                     full_house.append(recheck)
             if full_house == [3, 2] or full_house == [2, 3]:
-                return FULL_HOUSE
+                return RANKS.FULL_HOUSE
         if checked_card == 3:
-            return THREE_OF_A_KIND
+            return RANKS.THREE_OF_A_KIND
         if checked_card == 2:
             two_pair = []
             for checked_card in count.values():
                 if checked_card == 2:
                     two_pair.append(checked_card)
             if len(two_pair) == 2:
-                return TWO_PAIR
+                return RANKS.TWO_PAIR
             else:
-                return ONE_PAIR
+                return RANKS.ONE_PAIR
     else:
         return higher_card(hand)
 
