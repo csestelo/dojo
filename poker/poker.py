@@ -1,10 +1,16 @@
 DECK = {'valete': 11, 'dama': 12, 'rei': 13, 'as': 14}
-#one_pair = 15 two_pair = 16 three_of_a_kind = 17 straight = 18
-#flush = 19 full_house = 20 four_of_a_kind = 21 straight_flush = 22
-#royal_flush = 23
+ONE_PAIR = 15
+TWO_PAIR = 16
+THREE_OF_A_KIND = 17
+STRAIGHT = 18
+FLUSH = 19
+FULL_HOUSE = 20
+FOUR_OF_A_KIND = 21
+STRAIGHT_FLUSH = 22
+ROYAL_FLUSH = 23
 
 def poker(hand_1, hand_2):
-    if one_pair(hand_1) > one_pair(hand_2):
+    if wich_hand(hand_1) > wich_hand(hand_2):
         return 'Player_1'
     else:
         return 'Player_2'
@@ -21,21 +27,41 @@ def normalize_value(hand):
 def higher_card(hand):
     return max(normalize_value(hand))
 
-def one_pair(hand):
+def wich_hand(hand):
     count = {}
     for card in normalize_value(hand):
-        # val = count[card].values()
         if card in count:
             count[card] += 1
+            #assim se cria uma nova chave/valor em um dicionario>
         else:
-#assim se cria uma nova chave/valor em um dicionario>
             count[card] = 1
     for checked_card in count.values():
         if checked_card == 4:
-            return 21
+            return FOUR_OF_A_KIND
+        if straight(hand) == True:
+            return STRAIGHT
+        if checked_card == 3 or checked_card == 2:
+            full_house = []
+            for recheck in count.values():
+                if recheck == 2 or recheck == 3:
+                    full_house.append(recheck)
+            if full_house == [3, 2] or full_house == [2, 3]:
+                return FULL_HOUSE
         if checked_card == 3:
-            return 17
+            return THREE_OF_A_KIND
         if checked_card == 2:
-            return 15
+            two_pair = []
+            for checked_card in count.values():
+                if checked_card == 2:
+                    two_pair.append(checked_card)
+            if len(two_pair) == 2:
+                return TWO_PAIR
+            else:
+                return ONE_PAIR
     else:
         return higher_card(hand)
+
+def straight(hand):
+    sorted_hand = sorted(normalize_value(hand))
+    check = range(sorted_hand[0], sorted_hand[0] + 5)
+    return sorted_hand == check
