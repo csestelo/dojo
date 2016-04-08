@@ -1,16 +1,20 @@
 from poker_const import RANKS, DECK
 
 def poker(hand_1, hand_2):
-    if same_suits(hand_1) == True:
+    if royal_flush(hand_1):
+        hand_1 = RANKS.ROYAL_FLUSH
+    elif same_suits(hand_1):
         hand_1 = RANKS.FLUSH
     else:
         hand_1 = wich_hand(card_value(hand_1))
 
-    if same_suits(hand_2) == True:
+    if royal_flush(hand_2):
+        hand_2 = RANKS.ROYAL_FLUSH
+    elif same_suits(hand_2):
         hand_2 = RANKS.FLUSH
     else:
         hand_2 = wich_hand(card_value(hand_2))
-
+        
     if hand_1 > hand_2:
         return 'Player_1'
     else:
@@ -37,6 +41,16 @@ def normalize_value(hand):
 def higher_card(hand):
     return max(normalize_value(hand))
 
+def royal_flush(hand):
+    sorted_hand = sorted(normalize_value(card_value(hand)))
+    check = range(sorted_hand[0], sorted_hand[0] + 5)
+    return sorted_hand == check and same_suits(hand) and check[4] == 14
+
+def straight(hand):
+    sorted_hand = sorted(normalize_value(hand))
+    check = range(sorted_hand[0], sorted_hand[0] + 5)
+    return sorted_hand == check
+
 def wich_hand(hand):
     count = {}
     for card in normalize_value(hand):
@@ -48,7 +62,7 @@ def wich_hand(hand):
     for checked_card in count.values():
         if checked_card == 4:
             return RANKS.FOUR_OF_A_KIND
-        if straight(hand) == True:
+        if straight(hand):
             return RANKS.STRAIGHT
         if checked_card == 3 or checked_card == 2:
             full_house = []
@@ -70,8 +84,3 @@ def wich_hand(hand):
                 return RANKS.ONE_PAIR
     else:
         return higher_card(hand)
-
-def straight(hand):
-    sorted_hand = sorted(normalize_value(hand))
-    check = range(sorted_hand[0], sorted_hand[0] + 5)
-    return sorted_hand == check

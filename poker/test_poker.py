@@ -51,9 +51,16 @@ class TestPoker(unittest.TestCase):
         self.assertEqual(poker(winner_hand, loser_hand), 'Player_1')
         self.assertEqual(poker(loser_hand, winner_hand), 'Player_2')
 
-    def test_flush_must_straight(self):
-        winner_hand = [(4, 'H'), (6, 'H'), (3, 'H'), (8, 'H'), ('as', 'H')]
+    def test_flush_must_win_straight(self):
+        winner_hand = [(4, 'H'), (6, 'H'), (3, 'H'), (8, 'H'), (2, 'H')]
         loser_hand = [(3, 'C'), (4, 'H'), (5, 'H'), (6, 'H'), (7, 'C')]
+        self.assertEqual(poker(winner_hand, loser_hand), 'Player_1')
+        self.assertEqual(poker(loser_hand, winner_hand), 'Player_2')
+
+    def test_royal_flush_must_straight(self):
+        winner_hand = [(10, 'H'), ('valete', 'H'),
+                       ('dama', 'H'), ('rei', 'H'), ('as', 'H')]
+        loser_hand = [(2, 'H'), (3, 'C'), (4, 'H'), (5, 'C'), (6, 'H')]
         self.assertEqual(poker(winner_hand, loser_hand), 'Player_1')
         self.assertEqual(poker(loser_hand, winner_hand), 'Player_2')
 
