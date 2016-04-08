@@ -1,10 +1,23 @@
 from poker_const import RANKS, DECK
 
 def poker(hand_1, hand_2):
-    if wich_hand(card_value(hand_1)) > wich_hand(card_value(hand_2)):
+    if same_suits(hand_1) == True:
+        hand_1 = RANKS.FLUSH
+    else:
+        hand_1 = wich_hand(card_value(hand_1))
+
+    if same_suits(hand_2) == True:
+        hand_2 = RANKS.FLUSH
+    else:
+        hand_2 = wich_hand(card_value(hand_2))
+
+    if hand_1 > hand_2:
         return 'Player_1'
     else:
         return 'Player_2'
+
+def same_suits(hand):
+    return len(set(suits(hand))) == 1
 
 def card_value(hand):
     return [card[0] for card in hand]
